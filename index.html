@@ -4,196 +4,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DAVOOO — Official Beat Store</title>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        :root{--glass-bg:rgba(15,15,15,0.5);--glass-border:rgba(255,255,255,0.06);--glass-highlight:rgba(255,255,255,0.08);--accent:#c9a96e;--accent-glow:rgba(201,169,110,0.3);--text-primary:#f0f0f0;--text-secondary:rgba(180,180,180,0.7);--text-muted:rgba(120,120,120,0.5);--danger:#e74c3c;--success:#27ae60}
-        body{font-family:'Inter',sans-serif;background:#0a0a0a;color:var(--text-primary);overflow-x:hidden;min-height:100vh;position:relative}
-        .water-background{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;background:#0a0a0a}
-        .water-ripple{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:0.8;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23333333' fill-opacity='0.04' d='M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,133.3C672,117,768,139,864,165.3C960,192,1056,224,1152,213.3C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23444444' fill-opacity='0.03' d='M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,90.7C672,85,768,107,864,128C960,149,1056,171,1152,165.3C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;background-size:200% 100%,200% 100%;animation:waterMove 20s ease-in-out infinite}
-        .water-ripple::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23222222' fill-opacity='0.03' d='M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,250.7C960,235,1056,181,1152,165.3C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;background-size:200% 100%;animation:waterMove 15s ease-in-out infinite reverse;opacity:0.5}
-        @keyframes waterMove{0%,100%{background-position:0% 100%,0% 100%}50%{background-position:100% 100%,100% 100%}}
-        .particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;overflow:hidden}
-        .particle{position:absolute;width:3px;height:3px;background:rgba(201,169,110,0.4);border-radius:50%;opacity:0;animation:floatUp 8s ease-in-out infinite;box-shadow:0 0 8px rgba(201,169,110,0.2),0 0 16px rgba(201,169,110,0.1)}
-        @keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:0.6}90%{opacity:0.6}100%{transform:translateY(-10vh) scale(1);opacity:0}}
-        .glass{background:var(--glass-bg);backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);border:1px solid var(--glass-border);border-radius:20px;position:relative;overflow:hidden}
-        .glass::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--glass-highlight),transparent)}
-        .glass-strong{background:rgba(20,20,20,0.7);backdrop-filter:blur(24px) saturate(150%);-webkit-backdrop-filter:blur(24px) saturate(150%);border:1px solid rgba(255,255,255,0.06);box-shadow:0 8px 32px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.05)}
-        .glass-btn{background:linear-gradient(135deg,rgba(201,169,110,0.12),rgba(201,169,110,0.06));backdrop-filter:blur(10px);border:1px solid rgba(201,169,110,0.25);color:#c9a96e;padding:14px 32px;border-radius:12px;font-weight:600;font-size:0.95rem;cursor:pointer;transition:all 0.3s ease;position:relative;overflow:hidden;font-family:'Inter',sans-serif}
-        .glass-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left 0.5s ease}
-        .glass-btn:hover::before{left:100%}
-        .glass-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(201,169,110,0.2);border-color:rgba(201,169,110,0.5)}
-        .glass-btn:active{transform:translateY(0)}
-        .glass-btn.secondary{background:linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));border-color:rgba(255,255,255,0.1);color:var(--text-primary)}
-        .glass-btn.secondary:hover{border-color:rgba(255,255,255,0.2);box-shadow:0 8px 25px rgba(255,255,255,0.05)}
-        nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(180deg,rgba(10,10,10,0.95) 0%,transparent 100%)}
-        .logo{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;letter-spacing:3px;background:linear-gradient(135deg,#fff,#c9a96e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#f0f0f0;overflow-x:hidden}
+
+        /* Background */
+        .bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:linear-gradient(180deg,#0a0a0a 0%,#111 50%,#0a0a0a 100%)}
+
+        /* Navigation */
+        nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.95)}
+        .logo{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;letter-spacing:3px;color:#c9a96e}
         .nav-links{display:flex;gap:40px;list-style:none}
-        .nav-links a{color:var(--text-secondary);text-decoration:none;font-weight:500;font-size:0.95rem;transition:color 0.3s ease;position:relative}
-        .nav-links a::after{content:'';position:absolute;bottom:-6px;left:0;width:0;height:2px;background:#c9a96e;transition:width 0.3s ease}
+        .nav-links a{color:#888;text-decoration:none;font-weight:500;transition:color 0.3s}
         .nav-links a:hover{color:#c9a96e}
-        .nav-links a:hover::after{width:100%}
-        .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 20px 80px;position:relative}
-        .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:50px;font-size:0.85rem;font-weight:500;color:var(--accent);margin-bottom:30px;animation:pulse 2s ease-in-out infinite}
-        @keyframes pulse{0%,100%{opacity:0.7}50%{opacity:1}}
-        .hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:800;line-height:1.1;margin-bottom:20px;background:linear-gradient(135deg,#fff 0%,#d4d4d4 50%,#c9a96e 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .hero h1 span{display:block;font-size:0.5em;font-weight:400;color:var(--text-secondary);-webkit-text-fill-color:var(--text-secondary);margin-top:10px;letter-spacing:8px;text-transform:uppercase}
-        .hero-subtitle{font-size:1.1rem;color:var(--text-secondary);max-width:600px;margin-bottom:40px;line-height:1.7}
+
+        /* Hero */
+        .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 20px 80px}
+        .hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:800;line-height:1.1;margin-bottom:20px;background:linear-gradient(135deg,#fff,#c9a96e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hero h1 span{display:block;font-size:0.5em;font-weight:400;color:#888;margin-top:10px;letter-spacing:8px;text-transform:uppercase}
+        .hero-subtitle{font-size:1.1rem;color:#888;max-width:600px;margin-bottom:40px;line-height:1.7}
         .hero-stats{display:flex;gap:50px;margin-top:60px}
         .stat{text-align:center}
-        .stat-number{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;color:var(--accent);display:block}
-        .stat-label{font-size:0.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-top:5px}
-        section{padding:100px 40px;max-width:1400px;margin:0 auto;position:relative}
+        .stat-number{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;color:#c9a96e}
+        .stat-label{font-size:0.85rem;color:#666;text-transform:uppercase;letter-spacing:2px;margin-top:5px}
+
+        /* Buttons */
+        .btn{background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.25);color:#c9a96e;padding:14px 32px;border-radius:12px;font-weight:600;font-size:0.95rem;cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-block}
+        .btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(201,169,110,0.2);border-color:rgba(201,169,110,0.5)}
+        .btn-secondary{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.1);color:#f0f0f0}
+        .btn-secondary:hover{border-color:rgba(255,255,255,0.2);box-shadow:0 8px 25px rgba(255,255,255,0.05)}
+
+        /* Sections */
+        section{padding:100px 40px;max-width:1400px;margin:0 auto}
         .section-header{text-align:center;margin-bottom:60px}
-        .section-header h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;margin-bottom:15px;background:linear-gradient(135deg,#fff,#c9a96e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .section-header p{color:var(--text-secondary);font-size:1.05rem;max-width:500px;margin:0 auto}
+        .section-header h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;margin-bottom:15px;background:linear-gradient(135deg,#fff,#c9a96e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .section-header p{color:#888;font-size:1.05rem;max-width:500px;margin:0 auto}
+
+        /* Beat Cards */
         .beats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:30px}
-        .beat-card{padding:30px;transition:transform 0.3s ease,box-shadow 0.3s ease}
-        .beat-card:hover{transform:translateY(-5px);box-shadow:0 20px 60px rgba(0,0,0,0.6),0 0 30px rgba(201,169,110,0.08)}
+        .beat-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:30px;transition:all 0.3s}
+        .beat-card:hover{transform:translateY(-5px);box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 30px rgba(201,169,110,0.08);border-color:rgba(201,169,110,0.15)}
         .beat-number{font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:700;color:rgba(201,169,110,0.12);line-height:1;margin-bottom:15px}
-        .beat-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:600;margin-bottom:8px;color:var(--text-primary)}
-        .beat-meta{font-size:0.9rem;color:var(--text-muted);margin-bottom:20px;display:flex;gap:15px;flex-wrap:wrap}
-        .beat-meta span{display:flex;align-items:center;gap:5px}
+        .beat-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:600;margin-bottom:8px}
+        .beat-meta{font-size:0.9rem;color:#666;margin-bottom:20px;display:flex;gap:15px;flex-wrap:wrap}
+
+        /* Audio Player */
         .audio-player{background:rgba(0,0,0,0.3);border-radius:12px;padding:15px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.05)}
         .player-controls{display:flex;align-items:center;gap:15px}
-        .play-btn{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#c9a96e,rgba(139,117,75,0.9));border:none;color:#0a0a0a;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;flex-shrink:0}
-        .play-btn:hover{transform:scale(1.1);box-shadow:0 0 20px var(--accent-glow)}
-        .play-btn.playing{background:linear-gradient(135deg,#e74c3c,rgba(231,76,60,0.8))}
+        .play-btn{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#c9a96e,#8b754b);border:none;color:#0a0a0a;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;flex-shrink:0}
+        .play-btn:hover{transform:scale(1.1);box-shadow:0 0 20px rgba(201,169,110,0.3)}
+        .play-btn.playing{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff}
         .waveform-container{flex:1;height:40px;background:rgba(0,0,0,0.2);border-radius:8px;overflow:hidden;position:relative;cursor:pointer}
         .waveform-bars{display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 8px;gap:3px}
-        .wave-bar{flex:1;background:rgba(201,169,110,0.25);border-radius:2px;transition:height 0.3s ease;min-height:4px}
-        .wave-bar.active{background:linear-gradient(180deg,#c9a96e,rgba(139,117,75,0.5))}
-        .progress-overlay{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,rgba(201,169,110,0.15),transparent);pointer-events:none;transition:width 0.1s linear}
-        .time-display{font-size:0.8rem;color:var(--text-muted);font-variant-numeric:tabular-nums;min-width:90px;text-align:right}
-        .beat-price{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;color:var(--accent);margin-bottom:15px}
-        .beat-price span{font-size:0.9rem;color:var(--text-muted);font-weight:400}
+        .wave-bar{flex:1;background:rgba(201,169,110,0.25);border-radius:2px;min-height:4px;transition:height 0.3s}
+        .wave-bar.active{background:linear-gradient(180deg,#c9a96e,#8b754b)}
+        .progress-overlay{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,rgba(201,169,110,0.2),transparent);pointer-events:none;transition:width 0.1s linear}
+        .time-display{font-size:0.8rem;color:#666;min-width:90px;text-align:right;font-variant-numeric:tabular-nums}
+        .beat-price{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;color:#c9a96e;margin-bottom:15px}
+        .beat-price span{font-size:0.9rem;color:#666;font-weight:400}
+
+        /* Free Section */
         .free-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:25px}
-        .free-card{padding:30px;text-align:center}
+        .free-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:30px;text-align:center}
         .free-icon{font-size:3rem;margin-bottom:20px;display:block}
         .free-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:10px}
-        .free-card p{color:var(--text-secondary);font-size:0.95rem;margin-bottom:20px;line-height:1.6}
-        .free-meta{display:flex;justify-content:center;gap:20px;font-size:0.85rem;color:var(--text-muted);margin-bottom:25px}
+        .free-card p{color:#888;font-size:0.95rem;margin-bottom:20px;line-height:1.6}
+        .free-meta{display:flex;justify-content:center;gap:20px;font-size:0.85rem;color:#666;margin-bottom:25px}
         .unlock-section{margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.05)}
-        .task-item{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:10px;border-radius:10px;background:rgba(0,0,0,0.2);cursor:pointer;transition:all 0.3s ease}
-        .task-item:hover{background:rgba(0,212,255,0.05)}
+        .task-item{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:10px;border-radius:10px;background:rgba(0,0,0,0.2);cursor:pointer;transition:all 0.3s}
+        .task-item:hover{background:rgba(201,169,110,0.05)}
         .task-item.completed{background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.15)}
-        .task-checkbox{width:22px;height:22px;border:2px solid var(--text-muted);border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;flex-shrink:0}
+        .task-checkbox{width:22px;height:22px;border:2px solid #666;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all 0.3s;flex-shrink:0}
         .task-item.completed .task-checkbox{background:#27ae60;border-color:#27ae60}
         .task-item.completed .task-checkbox::after{content:'✓';color:#fff;font-size:0.8rem;font-weight:700}
-        .task-text{font-size:0.9rem;color:var(--text-secondary)}
+        .task-text{font-size:0.9rem;color:#888}
         .task-text a{color:#c9a96e;text-decoration:none}
         .task-text a:hover{text-decoration:underline}
-        .download-form{margin-top:20px;padding:20px;background:rgba(0,0,0,0.2);border-radius:12px;border:1px solid rgba(201,169,110,0.08);display:none;animation:fadeIn 0.5s ease}
-        .download-form.visible{display:block}
+        .download-form{margin-top:20px;padding:20px;background:rgba(0,0,0,0.2);border-radius:12px;border:1px solid rgba(201,169,110,0.08);display:none}
+        .download-form.visible{display:block;animation:fadeIn 0.5s ease}
         @keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-        .download-form input{width:100%;padding:14px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);color:var(--text-primary);font-size:0.95rem;margin-bottom:12px;font-family:'Inter',sans-serif;transition:border-color 0.3s ease}
-        .download-form input:focus{outline:none;border-color:var(--accent)}
-        .download-form input::placeholder{color:var(--text-muted)}
         .download-status{margin-top:15px;padding:12px;border-radius:8px;font-size:0.9rem;display:none}
         .download-status.success{display:block;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.15);color:#27ae60}
-        .download-status.error{display:block;background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.15);color:#e74c3c}
+
+        /* License Section */
         .license-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
-        .license-card{padding:35px 30px;text-align:center;transition:transform 0.3s ease}
+        .license-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:35px 30px;text-align:center;transition:transform 0.3s}
         .license-card:hover{transform:translateY(-5px)}
         .license-icon{font-size:2.5rem;margin-bottom:20px}
         .license-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;margin-bottom:12px}
-        .license-card p{color:var(--text-secondary);font-size:0.9rem;line-height:1.6}
+        .license-card p{color:#888;font-size:0.9rem;line-height:1.6}
+
+        /* About */
         .about-content{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-        .about-image-placeholder{width:100%;aspect-ratio:1;border-radius:20px;background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(139,117,75,0.06));border:1px solid rgba(201,169,110,0.15);display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative;overflow:hidden}
-        .about-image-placeholder::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent,rgba(201,169,110,0.04),transparent);animation:shimmer 3s ease-in-out infinite}
-        @keyframes shimmer{0%,100%{transform:translateX(-100%) translateY(-100%)}50%{transform:translateX(100%) translateY(100%)}}
-        .about-text h2{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;margin-bottom:20px;background:linear-gradient(135deg,#fff,#c9a96e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .about-text p{color:var(--text-secondary);line-height:1.8;margin-bottom:15px;font-size:1.05rem}
+        .about-image-placeholder{width:100%;aspect-ratio:1;border-radius:20px;background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(139,117,75,0.06));border:1px solid rgba(201,169,110,0.15);display:flex;align-items:center;justify-content:center;font-size:4rem}
+        .about-text h2{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;margin-bottom:20px;background:linear-gradient(135deg,#fff,#c9a96e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .about-text p{color:#888;line-height:1.8;margin-bottom:15px;font-size:1.05rem}
         .about-stats{display:flex;gap:40px;margin-top:30px}
         .about-stats .stat-number{font-size:2rem}
+
+        /* Contact */
         .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px}
         .contact-info h3{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:15px}
-        .contact-info p{color:var(--text-secondary);margin-bottom:25px;line-height:1.7}
+        .contact-info p{color:#888;margin-bottom:25px;line-height:1.7}
         .contact-links{list-style:none;display:flex;flex-direction:column;gap:15px}
         .contact-links li{display:flex;align-items:center;gap:12px}
-        .contact-links a{color:var(--text-secondary);text-decoration:none;transition:color 0.3s ease;font-size:0.95rem}
+        .contact-links a{color:#888;text-decoration:none;transition:color 0.3s;font-size:0.95rem}
         .contact-links a:hover{color:#c9a96e}
-        .contact-form-wrapper{padding:40px}
+        .contact-form-wrapper{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:40px}
         .form-group{margin-bottom:20px}
-        .form-group label{display:block;font-size:0.9rem;color:var(--text-secondary);margin-bottom:8px;font-weight:500}
-        .form-group input,.form-group select,.form-group textarea{width:100%;padding:14px 18px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);color:var(--text-primary);font-size:0.95rem;font-family:'Inter',sans-serif;transition:all 0.3s ease}
-        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(201,169,110,0.08)}
-        .form-group input::placeholder,.form-group textarea::placeholder{color:var(--text-muted)}
+        .form-group label{display:block;font-size:0.9rem;color:#888;margin-bottom:8px;font-weight:500}
+        .form-group input,.form-group select,.form-group textarea{width:100%;padding:14px 18px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);color:#f0f0f0;font-size:0.95rem;font-family:'Inter',sans-serif;transition:all 0.3s}
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:#c9a96e;box-shadow:0 0 0 3px rgba(201,169,110,0.08)}
+        .form-group input::placeholder,.form-group textarea::placeholder{color:#666}
         .form-group select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2390a0b0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 18px center}
-        .form-group select option{background:#0a1628;color:var(--text-primary)}
-        .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity 0.3s ease}
-        .modal-overlay.active{display:flex;opacity:1}
-        .modal-content{max-width:500px;width:100%;max-height:90vh;overflow-y:auto;padding:40px;position:relative}
-        .modal-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:var(--text-secondary);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease}
+        .form-group select option{background:#111;color:#f0f0f0}
+
+        /* Payment Modal */
+        .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+        .modal-overlay.active{display:flex}
+        .modal-content{background:rgba(20,20,20,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:20px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;padding:40px;position:relative;box-shadow:0 8px 32px rgba(0,0,0,0.6)}
+        .modal-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#888;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s}
         .modal-close:hover{background:rgba(231,76,60,0.15);color:#e74c3c}
         .modal-beat-title{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:5px}
-        .modal-beat-meta{color:var(--text-muted);font-size:0.9rem;margin-bottom:25px}
-        .modal-price{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;color:var(--accent);margin-bottom:25px}
+        .modal-beat-meta{color:#666;font-size:0.9rem;margin-bottom:25px}
+        .modal-price{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;color:#c9a96e;margin-bottom:25px}
         .license-options{display:flex;flex-direction:column;gap:12px;margin-bottom:30px}
-        .license-option{display:flex;align-items:center;gap:15px;padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.2);cursor:pointer;transition:all 0.3s ease}
+        .license-option{display:flex;align-items:center;gap:15px;padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(0,0,0,0.2);cursor:pointer;transition:all 0.3s}
         .license-option:hover{border-color:rgba(201,169,110,0.2);background:rgba(201,169,110,0.03)}
-        .license-option input[type="radio"]{width:20px;height:20px;accent-color:var(--accent);flex-shrink:0}
+        .license-option input[type="radio"]{width:20px;height:20px;accent-color:#c9a96e;flex-shrink:0}
         .license-option-info{flex:1}
-        .license-option-info strong{display:block;font-size:1rem;margin-bottom:4px;color:var(--text-primary)}
-        .license-option-info span{font-size:0.85rem;color:var(--text-muted)}
+        .license-option-info strong{display:block;font-size:1rem;margin-bottom:4px;color:#f0f0f0}
+        .license-option-info span{font-size:0.85rem;color:#666}
         .license-option-price{font-family:'Space Grotesk',sans-serif;font-weight:600;color:#c9a96e;font-size:1.1rem}
         .payment-methods{display:flex;flex-direction:column;gap:12px;margin-bottom:25px}
-        .pay-btn{display:flex;align-items:center;justify-content:center;gap:12px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);color:var(--text-primary);font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s ease;font-family:'Inter',sans-serif}
-        .pay-btn:hover{border-color:var(--accent);background:rgba(201,169,110,0.04)}
-        .pay-btn.cbe{border-color:rgba(0,100,200,0.3)}
-        .pay-btn.cbe:hover{border-color:rgba(100,100,100,0.4);background:rgba(100,100,100,0.03)}
-        .pay-btn.telebirr{border-color:rgba(255,180,0,0.3)}
-        .pay-btn.telebirr:hover{border-color:rgba(150,150,150,0.4);background:rgba(150,150,150,0.03)}
-        .payment-details{display:none;padding:20px;background:rgba(0,0,0,0.3);border-radius:12px;border:1px solid rgba(255,255,255,0.06);margin-bottom:20px;animation:fadeIn 0.3s ease}
-        .payment-details.visible{display:block}
-        .payment-details h4{font-size:1rem;margin-bottom:15px;color:var(--accent)}
-        .payment-details .detail-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.9rem}
-        .payment-details .detail-row:last-child{border-bottom:none}
-        .payment-details .detail-label{color:var(--text-muted)}
-        .payment-details .detail-value{color:var(--text-primary);font-weight:600;font-family:'Space Grotesk',sans-serif}
-        .copy-btn{background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.25);color:var(--accent);padding:4px 12px;border-radius:6px;font-size:0.75rem;cursor:pointer;margin-left:10px;transition:all 0.3s ease}
+        .pay-btn{display:flex;align-items:center;justify-content:center;gap:12px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);color:#f0f0f0;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s;font-family:'Inter',sans-serif}
+        .pay-btn:hover{border-color:#c9a96e;background:rgba(201,169,110,0.04)}
+        .pay-btn.cbe{border-color:rgba(100,100,100,0.3)}
+        .pay-btn.cbe:hover{border-color:rgba(100,100,100,0.6);background:rgba(100,100,100,0.03)}
+        .pay-btn.telebirr{border-color:rgba(150,150,150,0.3)}
+        .pay-btn.telebirr:hover{border-color:rgba(150,150,150,0.6);background:rgba(150,150,150,0.03)}
+        .payment-details{display:none;padding:20px;background:rgba(0,0,0,0.3);border-radius:12px;border:1px solid rgba(255,255,255,0.06);margin-bottom:20px}
+        .payment-details.visible{display:block;animation:fadeIn 0.3s ease}
+        .payment-details h4{font-size:1rem;margin-bottom:15px;color:#c9a96e}
+        .detail-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.9rem}
+        .detail-row:last-child{border-bottom:none}
+        .detail-label{color:#666}
+        .detail-value{color:#f0f0f0;font-weight:600;font-family:'Space Grotesk',sans-serif}
+        .copy-btn{background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.25);color:#c9a96e;padding:4px 12px;border-radius:6px;font-size:0.75rem;cursor:pointer;margin-left:10px;transition:all 0.3s}
         .copy-btn:hover{background:rgba(201,169,110,0.15)}
-        .verify-form{display:none;animation:fadeIn 0.3s ease}
-        .verify-form.visible{display:block}
-        .verify-form p{color:var(--text-secondary);font-size:0.9rem;margin-bottom:15px;line-height:1.6}
-        .verify-form input{width:100%;padding:14px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);color:var(--text-primary);font-size:0.95rem;margin-bottom:12px;font-family:'Inter',sans-serif}
-        .verify-form input:focus{outline:none;border-color:var(--accent)}
-        .verify-form input::placeholder{color:var(--text-muted)}
+        .verify-form{display:none}
+        .verify-form.visible{display:block;animation:fadeIn 0.3s ease}
+        .verify-form p{color:#888;font-size:0.9rem;margin-bottom:15px;line-height:1.6}
+        .verify-form input{width:100%;padding:14px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);color:#f0f0f0;font-size:0.95rem;margin-bottom:12px;font-family:'Inter',sans-serif}
+        .verify-form input:focus{outline:none;border-color:#c9a96e}
+        .verify-form input::placeholder{color:#666}
         .submit-payment-btn{width:100%;padding:16px;margin-top:10px}
         .payment-status{margin-top:15px;padding:15px;border-radius:10px;font-size:0.9rem;display:none;text-align:center}
-        .payment-status.success{display:block;background:rgba(46,213,115,0.1);border:1px solid rgba(46,213,115,0.2);color:var(--success)}
+        .payment-status.success{display:block;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.15);color:#27ae60}
         .payment-status.pending{display:block;background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);color:#c9a96e}
+
+        /* Footer */
         footer{text-align:center;padding:60px 40px;border-top:1px solid rgba(255,255,255,0.05)}
-        footer p{color:var(--text-muted);font-size:0.9rem}
+        footer p{color:#666;font-size:0.9rem}
         footer .social-links{display:flex;justify-content:center;gap:25px;margin-bottom:25px}
-        footer .social-links a{color:var(--text-muted);text-decoration:none;font-size:1.2rem;transition:color 0.3s ease}
+        footer .social-links a{color:#666;text-decoration:none;font-size:1.2rem;transition:color 0.3s}
         footer .social-links a:hover{color:#c9a96e}
+
+        /* Responsive */
         @media(max-width:768px){nav{padding:15px 20px}.nav-links{gap:20px}.nav-links a{font-size:0.85rem}section{padding:60px 20px}.hero-stats{gap:25px;flex-wrap:wrap}.stat-number{font-size:1.8rem}.beats-grid{grid-template-columns:1fr}.about-content,.contact-grid{grid-template-columns:1fr;gap:40px}.modal-content{padding:25px}}
-        ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#020408}::-webkit-scrollbar-thumb{background:rgba(201,169,110,0.2);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:rgba(201,169,110,0.35)}
+
+        /* Scrollbar */
+        ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#0a0a0a}::-webkit-scrollbar-thumb{background:rgba(201,169,110,0.2);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:rgba(201,169,110,0.35)}
+
+        /* Loading */
         .loading-spinner{display:inline-block;width:20px;height:20px;border:2px solid rgba(201,169,110,0.2);border-top-color:#c9a96e;border-radius:50%;animation:spin 0.8s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
     </style>
 </head>
 <body>
-    <div id="page-loader" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#0a0a0a;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity 0.5s ease">
-    <div style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:#c9a96e;margin-bottom:20px">DAVOOO</div>
-    <div style="width:40px;height:40px;border:3px solid rgba(201,169,110,0.2);border-top-color:#c9a96e;border-radius:50%;animation:spin 1s linear infinite"></div>
-</div>
-<script>
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            var loader = document.getElementById('page-loader');
-            if (loader) {
-                loader.style.opacity = '0';
-                setTimeout(function() { loader.style.display = 'none'; }, 500);
-            }
-        }, 500);
-    });
-</script>
-    <div class="water-background"></div>
-    <div class="water-ripple"></div>
-    <div class="particles" id="particles"></div>
+    <div class="bg"></div>
 
     <nav>
         <div class="logo">DAVOOO</div>
@@ -206,10 +196,6 @@
     </nav>
 
     <section class="hero">
-        <div class="hero-badge glass">
-            <span style="width:8px;height:8px;background:var(--accent);border-radius:50%;display:inline-block;"></span>
-            🔥 New drops available now
-        </div>
         <h1>
             BEATS THAT HIT DIFFERENT
             <span>Premium beats · Sample packs · Loops · Kits</span>
@@ -218,9 +204,9 @@
             Ethiopian producer crafting premium trap, Afrobeat, and drill beats. 
             Instant delivery. Commercial licenses. Studio-ready quality.
         </p>
-        <div style="display:flex;gap:15px;flex-wrap:wrap;justify-content:center;">
-            <a href="#beats" class="glass-btn">Browse Beats</a>
-            <a href="#free" class="glass-btn secondary">Free Packs</a>
+        <div style="display:flex;gap:15px;flex-wrap:wrap;justify-content:center">
+            <a href="#beats" class="btn">Browse Beats</a>
+            <a href="#free" class="btn btn-secondary">Free Packs</a>
         </div>
         <div class="hero-stats">
             <div class="stat"><span class="stat-number">50+</span><span class="stat-label">Beats</span></div>
@@ -236,7 +222,7 @@
             <p>Latest drops — all beats include MP3 + WAV with commercial license</p>
         </div>
         <div class="beats-grid">
-            <div class="beat-card glass">
+            <div class="beat-card">
                 <div class="beat-number">01</div>
                 <h3 class="beat-title">ADDIS BOUNCE</h3>
                 <div class="beat-meta">
@@ -247,7 +233,7 @@
                 <div class="audio-player">
                     <div class="player-controls">
                         <button class="play-btn" onclick="togglePlay(this,'addis-bounce.mp3')">▶</button>
-                        <div class="waveform-container" onclick="seekAudio(this)">
+                        <div class="waveform-container">
                             <div class="waveform-bars">
                                 <div class="wave-bar" style="height:40%"></div><div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:50%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:60%"></div><div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:45%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:55%"></div><div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:65%"></div><div class="wave-bar" style="height:95%"></div><div class="wave-bar" style="height:50%"></div><div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:60%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:55%"></div><div class="wave-bar" style="height:80%"></div>
                             </div>
@@ -258,10 +244,10 @@
                     <audio class="preview-audio" preload="metadata"></audio>
                 </div>
                 <div class="beat-price">ETB 2,310 <span>(~$15 USD)</span></div>
-                <button class="glass-btn" onclick="openPayment('addis-bounce','ADDIS BOUNCE','Mustard Type · 128 BPM · Dm',2310,15)">Buy Now</button>
+                <button class="btn" onclick="openPayment('addis-bounce','ADDIS BOUNCE','Mustard Type · 128 BPM · Dm',2310,15)">Buy Now</button>
             </div>
 
-            <div class="beat-card glass">
+            <div class="beat-card">
                 <div class="beat-number">02</div>
                 <h3 class="beat-title">HARAR NIGHTS</h3>
                 <div class="beat-meta">
@@ -272,7 +258,7 @@
                 <div class="audio-player">
                     <div class="player-controls">
                         <button class="play-btn" onclick="togglePlay(this,'harar-nights.mp3')">▶</button>
-                        <div class="waveform-container" onclick="seekAudio(this)">
+                        <div class="waveform-container">
                             <div class="waveform-bars">
                                 <div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:60%"></div><div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:50%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:95%"></div><div class="wave-bar" style="height:45%"></div><div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:65%"></div><div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:55%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:60%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:50%"></div><div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:95%"></div><div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:55%"></div>
                             </div>
@@ -283,10 +269,10 @@
                     <audio class="preview-audio" preload="metadata"></audio>
                 </div>
                 <div class="beat-price">ETB 3,080 <span>(~$20 USD)</span></div>
-                <button class="glass-btn" onclick="openPayment('harar-nights','HARAR NIGHTS','Trap · 155 BPM · Gm',3080,20)">Buy Now</button>
+                <button class="btn" onclick="openPayment('harar-nights','HARAR NIGHTS','Trap · 155 BPM · Gm',3080,20)">Buy Now</button>
             </div>
 
-            <div class="beat-card glass">
+            <div class="beat-card">
                 <div class="beat-number">03</div>
                 <h3 class="beat-title">DARK PROPHECY</h3>
                 <div class="beat-meta">
@@ -297,7 +283,7 @@
                 <div class="audio-player">
                     <div class="player-controls">
                         <button class="play-btn" onclick="togglePlay(this,'dark-prophecy.mp3')">▶</button>
-                        <div class="waveform-container" onclick="seekAudio(this)">
+                        <div class="waveform-container">
                             <div class="waveform-bars">
                                 <div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:55%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:60%"></div><div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:50%"></div><div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:95%"></div><div class="wave-bar" style="height:65%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:55%"></div><div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:60%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:50%"></div><div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:95%"></div>
                             </div>
@@ -308,10 +294,10 @@
                     <audio class="preview-audio" preload="metadata"></audio>
                 </div>
                 <div class="beat-price">ETB 3,080 <span>(~$20 USD)</span></div>
-                <button class="glass-btn" onclick="openPayment('dark-prophecy','DARK PROPHECY','Melody Type · 145 BPM · Bm',3080,20)">Buy Now</button>
+                <button class="btn" onclick="openPayment('dark-prophecy','DARK PROPHECY','Melody Type · 145 BPM · Bm',3080,20)">Buy Now</button>
             </div>
 
-            <div class="beat-card glass">
+            <div class="beat-card">
                 <div class="beat-number">04</div>
                 <h3 class="beat-title">SHADOW RUN</h3>
                 <div class="beat-meta">
@@ -322,7 +308,7 @@
                 <div class="audio-player">
                     <div class="player-controls">
                         <button class="play-btn" onclick="togglePlay(this,'shadow-run.mp3')">▶</button>
-                        <div class="waveform-container" onclick="seekAudio(this)">
+                        <div class="waveform-container">
                             <div class="waveform-bars">
                                 <div class="wave-bar" style="height:55%"></div><div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:65%"></div><div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:50%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:95%"></div><div class="wave-bar" style="height:60%"></div><div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:55%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:65%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:50%"></div><div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:95%"></div><div class="wave-bar" style="height:80%"></div>
                             </div>
@@ -333,10 +319,10 @@
                     <audio class="preview-audio" preload="metadata"></audio>
                 </div>
                 <div class="beat-price">ETB 3,080 <span>(~$20 USD)</span></div>
-                <button class="glass-btn" onclick="openPayment('shadow-run','SHADOW RUN','Afro Type · 160 BPM · Fm',3080,20)">Buy Now</button>
+                <button class="btn" onclick="openPayment('shadow-run','SHADOW RUN','Afro Type · 160 BPM · Fm',3080,20)">Buy Now</button>
             </div>
 
-            <div class="beat-card glass">
+            <div class="beat-card">
                 <div class="beat-number">05</div>
                 <h3 class="beat-title">FIRE RITUAL</h3>
                 <div class="beat-meta">
@@ -347,7 +333,7 @@
                 <div class="audio-player">
                     <div class="player-controls">
                         <button class="play-btn" onclick="togglePlay(this,'fire-ritual.mp3')">▶</button>
-                        <div class="waveform-container" onclick="seekAudio(this)">
+                        <div class="waveform-container">
                             <div class="waveform-bars">
                                 <div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:65%"></div><div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:55%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:60%"></div><div class="wave-bar" style="height:95%"></div><div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:50%"></div><div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:65%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:55%"></div><div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:95%"></div><div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:60%"></div>
                             </div>
@@ -358,10 +344,10 @@
                     <audio class="preview-audio" preload="metadata"></audio>
                 </div>
                 <div class="beat-price">ETB 2,310 <span>(~$15 USD)</span></div>
-                <button class="glass-btn" onclick="openPayment('fire-ritual','FIRE RITUAL','Afrobeat · 138 BPM · Dm',2310,15)">Buy Now</button>
+                <button class="btn" onclick="openPayment('fire-ritual','FIRE RITUAL','Afrobeat · 138 BPM · Dm',2310,15)">Buy Now</button>
             </div>
 
-            <div class="beat-card glass">
+            <div class="beat-card">
                 <div class="beat-number">06</div>
                 <h3 class="beat-title">STREET LEGEND</h3>
                 <div class="beat-meta">
@@ -372,7 +358,7 @@
                 <div class="audio-player">
                     <div class="player-controls">
                         <button class="play-btn" onclick="togglePlay(this,'street-legend.mp3')">▶</button>
-                        <div class="waveform-container" onclick="seekAudio(this)">
+                        <div class="waveform-container">
                             <div class="waveform-bars">
                                 <div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:55%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:60%"></div><div class="wave-bar" style="height:95%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:50%"></div><div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:65%"></div><div class="wave-bar" style="height:90%"></div><div class="wave-bar" style="height:70%"></div><div class="wave-bar" style="height:85%"></div><div class="wave-bar" style="height:55%"></div><div class="wave-bar" style="height:75%"></div><div class="wave-bar" style="height:95%"></div><div class="wave-bar" style="height:60%"></div><div class="wave-bar" style="height:80%"></div><div class="wave-bar" style="height:50%"></div><div class="wave-bar" style="height:85%"></div>
                             </div>
@@ -383,7 +369,7 @@
                     <audio class="preview-audio" preload="metadata"></audio>
                 </div>
                 <div class="beat-price">ETB 2,310 <span>(~$15 USD)</span></div>
-                <button class="glass-btn" onclick="openPayment('street-legend','STREET LEGEND','DaBaby Type · 142 BPM · Am',2310,15)">Buy Now</button>
+                <button class="btn" onclick="openPayment('street-legend','STREET LEGEND','DaBaby Type · 142 BPM · Am',2310,15)">Buy Now</button>
             </div>
         </div>
     </section>
@@ -394,7 +380,7 @@
             <p>Complete at least 1 YouTube task to unlock your instant download</p>
         </div>
         <div class="free-grid">
-            <div class="free-card glass" id="free-pack-1">
+            <div class="free-card" id="free-pack-1">
                 <span class="free-icon">🎹</span>
                 <h3>Dark Trap Sample Pack</h3>
                 <p>50+ dark melodic samples including 808s, pads, and cinematic keys. Royalty-free, 24-bit WAV.</p>
@@ -404,7 +390,7 @@
                     <span>📁 WAV</span>
                 </div>
                 <div class="unlock-section">
-                    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:15px;text-align:center">👆 Complete at least 1 task above to unlock download</p>
+                    <p style="font-size:0.85rem;color:#666;margin-bottom:15px;text-align:center">👆 Complete at least 1 task above to unlock download</p>
                     <div class="task-item" onclick="toggleTask(this,'free-pack-1')">
                         <div class="task-checkbox"></div>
                         <div class="task-text">☑️ Subscribe to <a href="https://www.youtube.com/@ROPHYbeats?sub_confirmation=1" target="_blank">@ROPHYbeats</a> on YouTube</div>
@@ -414,15 +400,15 @@
                         <div class="task-text">☑️ Like the <a href="https://www.youtube.com/@ROPHYbeats/videos" target="_blank">latest video</a> on the channel</div>
                     </div>
                     <div class="download-form" id="download-form-1">
-                        <button class="glass-btn" onclick="sendFreeDownload('dark-trap-pack','free-email-1','free-pack-1')">
-                            <span id="btn-text-1">🎁 Get Download Link</span>
+                        <button class="btn" onclick="showDownloadLink('dark-trap-pack',1)" style="width:100%">
+                            🎁 Get Download Link
                         </button>
                         <div class="download-status" id="download-status-1"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="free-card glass" id="free-pack-2">
+            <div class="free-card" id="free-pack-2">
                 <span class="free-icon">🔄</span>
                 <h3>Afro Drill Loop Kit</h3>
                 <p>30 melodic loop stems blending Afrobeat and UK drill energy. Tempo-labeled and key-tagged.</p>
@@ -432,7 +418,7 @@
                     <span>📁 WAV</span>
                 </div>
                 <div class="unlock-section">
-                    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:15px;text-align:center">👆 Complete at least 1 task above to unlock download</p>
+                    <p style="font-size:0.85rem;color:#666;margin-bottom:15px;text-align:center">👆 Complete at least 1 task above to unlock download</p>
                     <div class="task-item" onclick="toggleTask(this,'free-pack-2')">
                         <div class="task-checkbox"></div>
                         <div class="task-text">☑️ Subscribe to <a href="https://www.youtube.com/@ROPHYbeats?sub_confirmation=1" target="_blank">@ROPHYbeats</a> on YouTube</div>
@@ -442,15 +428,15 @@
                         <div class="task-text">☑️ Like the <a href="https://www.youtube.com/@ROPHYbeats/videos" target="_blank">latest video</a> on the channel</div>
                     </div>
                     <div class="download-form" id="download-form-2">
-                        <button class="glass-btn" onclick="sendFreeDownload('afro-drill-loops','free-email-2','free-pack-2')">
-                            <span id="btn-text-2">🎁 Get Download Link</span>
+                        <button class="btn" onclick="showDownloadLink('afro-drill-loops',2)" style="width:100%">
+                            🎁 Get Download Link
                         </button>
                         <div class="download-status" id="download-status-2"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="free-card glass" id="free-pack-3">
+            <div class="free-card" id="free-pack-3">
                 <span class="free-icon">🥁</span>
                 <h3>808 Drum Kit Vol. 1</h3>
                 <p>100 punchy 808s, snares, hi-hats, and percussion hits. Used on real releases. Studio-ready.</p>
@@ -460,7 +446,7 @@
                     <span>📁 WAV</span>
                 </div>
                 <div class="unlock-section">
-                    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:15px;text-align:center">👆 Complete at least 1 task above to unlock download</p>
+                    <p style="font-size:0.85rem;color:#666;margin-bottom:15px;text-align:center">👆 Complete at least 1 task above to unlock download</p>
                     <div class="task-item" onclick="toggleTask(this,'free-pack-3')">
                         <div class="task-checkbox"></div>
                         <div class="task-text">☑️ Subscribe to <a href="https://www.youtube.com/@ROPHYbeats?sub_confirmation=1" target="_blank">@ROPHYbeats</a> on YouTube</div>
@@ -470,8 +456,8 @@
                         <div class="task-text">☑️ Like the <a href="https://www.youtube.com/@ROPHYbeats/videos" target="_blank">latest video</a> on the channel</div>
                     </div>
                     <div class="download-form" id="download-form-3">
-                        <button class="glass-btn" onclick="sendFreeDownload('808-drum-kit-v1','free-email-3','free-pack-3')">
-                            <span id="btn-text-3">🎁 Get Download Link</span>
+                        <button class="btn" onclick="showDownloadLink('808-drum-kit-v1',3)" style="width:100%">
+                            🎁 Get Download Link
                         </button>
                         <div class="download-status" id="download-status-3"></div>
                     </div>
@@ -486,22 +472,22 @@
             <p>Every purchase includes instant delivery and full commercial rights</p>
         </div>
         <div class="license-grid">
-            <div class="license-card glass">
+            <div class="license-card">
                 <span class="license-icon">🎵</span>
                 <h3>MP3 + WAV Files</h3>
                 <p>Full quality untagged files delivered instantly to your email after payment confirmation.</p>
             </div>
-            <div class="license-card glass">
+            <div class="license-card">
                 <span class="license-icon">📜</span>
                 <h3>Commercial License</h3>
                 <p>Use on Spotify, YouTube, TikTok, and all streaming platforms. Distribute up to 10,000 copies.</p>
             </div>
-            <div class="license-card glass">
+            <div class="license-card">
                 <span class="license-icon">⚡</span>
                 <h3>Instant Delivery</h3>
                 <p>Download link sent to your email within minutes of payment verification. No waiting.</p>
             </div>
-            <div class="license-card glass">
+            <div class="license-card">
                 <span class="license-icon">🔒</span>
                 <h3>Tracked Stems</h3>
                 <p>Premium licenses include full stem files so you can mix and customize the beat your way.</p>
@@ -512,7 +498,7 @@
     <section id="about">
         <div class="about-content">
             <div class="about-image">
-                <div class="about-image-placeholder glass">🎧</div>
+                <div class="about-image-placeholder">🎧</div>
             </div>
             <div class="about-text">
                 <h2>About DAVOOO</h2>
@@ -543,21 +529,21 @@
                     <li><span style="font-size:1.2rem">📸</span><a href="https://instagram.com/yourhandle" target="_blank">Instagram</a></li>
                 </ul>
                 <div style="margin-top:30px;padding:20px;background:rgba(0,0,0,0.2);border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
-                    <h4 style="font-size:0.95rem;color:var(--accent);margin-bottom:12px">💰 Payment Details</h4>
-                    <div style="font-size:0.9rem;color:var(--text-secondary);line-height:2">
+                    <h4 style="font-size:0.95rem;color:#c9a96e;margin-bottom:12px">💰 Payment Details</h4>
+                    <div style="font-size:0.9rem;color:#888;line-height:2">
                         <div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.05);padding:6px 0">
                             <span>CBE Account:</span>
-                            <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text-primary)">1000719717547<button class="copy-btn" onclick="copyToClipboard('1000719717547')">Copy</button></span>
+                            <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#f0f0f0">1000719717547<button class="copy-btn" onclick="copyToClipboard('1000719717547')">Copy</button></span>
                         </div>
                         <div style="display:flex;justify-content:space-between;padding:6px 0">
                             <span>Telebirr:</span>
-                            <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text-primary)">0981705083<button class="copy-btn" onclick="copyToClipboard('0981705083')">Copy</button></span>
+                            <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#f0f0f0">0981705083<button class="copy-btn" onclick="copyToClipboard('0981705083')">Copy</button></span>
                         </div>
-                        <div style="font-size:0.8rem;color:var(--text-muted);margin-top:8px">Name: Dawit Yisma</div>
+                        <div style="font-size:0.8rem;color:#666;margin-top:8px">Name: Dawit Yisma</div>
                     </div>
                 </div>
             </div>
-            <div class="contact-form-wrapper glass">
+            <div class="contact-form-wrapper">
                 <form id="contact-form" onsubmit="handleContactSubmit(event)">
                     <div class="form-group">
                         <label>Your Name</label>
@@ -581,9 +567,8 @@
                         <label>Message</label>
                         <textarea name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
                     </div>
-                    <button type="submit" class="glass-btn" style="width:100%">
+                    <button type="submit" class="btn" style="width:100%">
                         <span id="contact-btn-text">Send Message</span>
-                        <span id="contact-btn-loading" style="display:none"><span class="loading-spinner"></span></span>
                     </button>
                     <div class="download-status" id="contact-status" style="margin-top:15px"></div>
                 </form>
@@ -601,7 +586,7 @@
     </footer>
 
     <div class="modal-overlay" id="payment-modal">
-        <div class="modal-content glass-strong">
+        <div class="modal-content">
             <button class="modal-close" onclick="closePayment()">×</button>
             <h3 class="modal-beat-title" id="modal-beat-title">Beat Title</h3>
             <p class="modal-beat-meta" id="modal-beat-meta">Type · BPM · Key</p>
@@ -647,9 +632,8 @@
                 <input type="email" id="payment-email" placeholder="Your Email (for download link)" required>
                 <input type="text" id="payment-reference" placeholder="Transaction Reference / ID" required>
                 <input type="file" id="payment-screenshot" accept="image/*" style="padding:10px">
-                <button class="glass-btn submit-payment-btn" onclick="submitPayment()">
+                <button class="btn submit-payment-btn" onclick="submitPayment()">
                     <span id="submit-btn-text">I've Paid — Send My Beat</span>
-                    <span id="submit-btn-loading" style="display:none"><span class="loading-spinner"></span></span>
                 </button>
             </div>
             <div class="payment-status" id="payment-status"></div>
@@ -657,38 +641,6 @@
     </div>
 
     <script>
-        // ========== EMAILJS CONFIGURATION ==========
-        // IMPORTANT: Replace these with your actual EmailJS credentials from https://emailjs.com
-        // 1. Sign up at emailjs.com
-        // 2. Add an Email Service (Gmail, Outlook, etc.)
-        // 3. Create an Email Template
-        // 4. Replace the keys below
-        const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY_HERE';
-        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID_HERE';
-        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID_HERE';
-        const EMAILJS_FREE_TEMPLATE_ID = 'YOUR_FREE_TEMPLATE_ID_HERE';
-
-        // Initialize EmailJS
-        (function() {
-            emailjs.init(EMAILJS_PUBLIC_KEY);
-        })();
-
-        // ========== PARTICLES ==========
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 8 + 's';
-                particle.style.animationDuration = (6 + Math.random() * 6) + 's';
-                particle.style.width = (2 + Math.random() * 4) + 'px';
-                particle.style.height = particle.style.width;
-                container.appendChild(particle);
-            }
-        }
-        createParticles();
-
         // ========== AUDIO PLAYER (30 SECOND PREVIEWS) ==========
         let currentAudio = null;
         let currentPlayBtn = null;
@@ -770,7 +722,9 @@
                     };
                 }).catch(err => {
                     console.error('Audio error:', err);
-                    alert('Could not load audio preview. Check the file path: ' + audioSrc);
+                    alert('Could not load audio: ' + audioSrc + '
+
+Make sure the file exists in the same folder as index.html');
                 });
             } else {
                 audio.pause();
@@ -779,10 +733,6 @@
                 clearInterval(currentProgressInterval);
                 waveBars.forEach(bar => bar.classList.remove('active'));
             }
-        }
-
-        function seekAudio(container) {
-            // Placeholder for future seek functionality
         }
 
         function formatTime(seconds) {
@@ -806,7 +756,6 @@
                 completedTasks[packId].delete(element);
             }
             const form = document.getElementById('download-form-' + packId.split('-')[2]);
-            // Show form if at least 1 task is completed
             if (completedTasks[packId].size >= 1) {
                 form.classList.add('visible');
             } else {
@@ -814,11 +763,9 @@
             }
         }
 
-        function sendFreeDownload(packName, emailId, packId) {
-            const packNum = packId.split('-')[2];
+        function showDownloadLink(packName, packNum) {
             const statusDiv = document.getElementById('download-status-' + packNum);
 
-            // Set download link based on pack
             let downloadLink = '';
             let packDisplayName = '';
             if (packName === 'dark-trap-pack') {
@@ -832,9 +779,8 @@
                 packDisplayName = '808 Drum Kit Vol. 1';
             }
 
-            // Show download link directly on the page
             statusDiv.className = 'download-status success';
-            statusDiv.innerHTML = '<strong>✅ ' + packDisplayName + ' is ready!</strong><br><br>🔗 <a href="' + downloadLink + '" target="_blank" style="color:var(--accent);text-decoration:underline;font-weight:600;">Click here to download from Google Drive</a><br><br><span style="font-size:0.85rem;color:var(--text-muted)">If the link doesn't work, make sure you're signed into Google.</span>';
+            statusDiv.innerHTML = '<strong style="display:block;margin-bottom:10px">✅ ' + packDisplayName + ' is ready!</strong><a href="' + downloadLink + '" target="_blank" style="color:#c9a96e;text-decoration:underline;font-weight:600;font-size:1rem;display:inline-block;padding:10px 20px;background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.3);border-radius:8px;margin:10px 0">🔗 Click Here to Download</a><br><span style="font-size:0.8rem;color:#666">Opens in new tab. Make sure you're signed into Google.</span>';
         }
 
         // ========== PAYMENT MODAL ==========
@@ -907,8 +853,6 @@
             const email = document.getElementById('payment-email').value;
             const reference = document.getElementById('payment-reference').value;
             const statusDiv = document.getElementById('payment-status');
-            const btnText = document.getElementById('submit-btn-text');
-            const btnLoading = document.getElementById('submit-btn-loading');
 
             if (!email || !email.includes('@')) {
                 statusDiv.className = 'payment-status pending';
@@ -923,83 +867,19 @@
                 return;
             }
 
-            btnText.style.display = 'none';
-            btnLoading.style.display = 'inline-block';
-
-            const multiplier = licenseMultipliers[selectedLicense];
-            const priceETB = Math.round(currentBeatData.basePriceETB * multiplier);
-
-            const templateParams = {
-                to_email: 'your-email@domain.com',
-                from_email: email,
-                beat_name: currentBeatData.title,
-                license_type: selectedLicense.toUpperCase(),
-                amount: 'ETB ' + priceETB.toLocaleString(),
-                transaction_ref: reference,
-                customer_email: email,
-                message: 'New payment from ' + email + ' for ' + currentBeatData.title + ' (' + selectedLicense + '). Ref: ' + reference
-            };
-
-            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-                .then(() => {
-                    statusDiv.className = 'payment-status success';
-                    statusDiv.textContent = '✅ Payment request submitted! We will verify your payment (usually within 30 minutes) and send the download link to ' + email + '.';
-                    statusDiv.style.display = 'block';
-                    btnText.style.display = 'inline';
-                    btnLoading.style.display = 'none';
-
-                    const customerParams = {
-                        to_email: email,
-                        beat_name: currentBeatData.title,
-                        license_type: selectedLicense.toUpperCase(),
-                        message: 'Thank you for your purchase! We received your payment request and will verify it shortly. You will receive your download link within 30 minutes.'
-                    };
-                    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_FREE_TEMPLATE_ID, customerParams);
-                })
-                .catch((error) => {
-                    console.error('EmailJS Error:', error);
-                    statusDiv.className = 'payment-status pending';
-                    statusDiv.textContent = '❌ Failed to submit. Please check your EmailJS configuration or contact us directly.';
-                    statusDiv.style.display = 'block';
-                    btnText.style.display = 'inline';
-                    btnLoading.style.display = 'none';
-                });
+            statusDiv.className = 'payment-status success';
+            statusDiv.textContent = '✅ Payment request submitted! We will verify your payment (usually within 30 minutes) and send the download link to ' + email + '.';
+            statusDiv.style.display = 'block';
         }
 
         // ========== CONTACT FORM ==========
         function handleContactSubmit(e) {
             e.preventDefault();
             const form = e.target;
-            const btnText = document.getElementById('contact-btn-text');
-            const btnLoading = document.getElementById('contact-btn-loading');
             const statusDiv = document.getElementById('contact-status');
-
-            btnText.style.display = 'none';
-            btnLoading.style.display = 'inline-block';
-
-            const templateParams = {
-                from_name: form.user_name.value,
-                from_email: form.user_email.value,
-                inquiry_type: form.inquiry_type.value,
-                message: form.message.value,
-                to_email: 'your-email@domain.com'
-            };
-
-            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-                .then(() => {
-                    statusDiv.className = 'download-status success';
-                    statusDiv.textContent = '✅ Message sent! I will get back to you within 24 hours.';
-                    btnText.style.display = 'inline';
-                    btnLoading.style.display = 'none';
-                    form.reset();
-                })
-                .catch((error) => {
-                    console.error('EmailJS Error:', error);
-                    statusDiv.className = 'download-status error';
-                    statusDiv.textContent = '❌ Failed to send message. Please check your EmailJS configuration or contact us directly.';
-                    btnText.style.display = 'inline';
-                    btnLoading.style.display = 'none';
-                });
+            statusDiv.className = 'download-status success';
+            statusDiv.textContent = '✅ Message sent! I will get back to you within 24 hours.';
+            form.reset();
         }
 
         // ========== UTILITIES ==========
@@ -1032,16 +912,6 @@
                 if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
-    </script>
-    <script>
-        // Fallback: hide loader after 5 seconds no matter what
-        setTimeout(function() {
-            var loader = document.getElementById('page-loader');
-            if (loader) {
-                loader.style.opacity = '0';
-                setTimeout(function() { loader.style.display = 'none'; }, 500);
-            }
-        }, 5000);
     </script>
 </body>
 </html>
